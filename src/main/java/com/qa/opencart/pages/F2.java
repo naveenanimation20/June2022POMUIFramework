@@ -15,7 +15,9 @@ public class F2 {
 	public void login() {
 		String un = "naveen";
 		String pwd = "12345";
+		String role = "admin";
 		System.out.println("login is done");
+		
 	}
 	
 
