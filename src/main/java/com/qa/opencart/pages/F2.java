@@ -11,8 +11,8 @@ public class F2 {
 	}
 	
 	public void login() {
-		String un = "naveen";
-		String pwd = "12345";
+		String un = "ahmed";
+		String pwd = "ahmd123";
 	}
 
 }
