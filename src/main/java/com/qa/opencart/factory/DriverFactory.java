@@ -148,6 +148,7 @@ public class DriverFactory {
 	
 	/**
 	 * take screenshot
+	 * 
 	 */
 	public static String getScreenshot() {
 		
