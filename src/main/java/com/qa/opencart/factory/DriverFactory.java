@@ -60,7 +60,6 @@ public class DriverFactory {
 			// driver = new EdgeDriver();
 			tlDriver.set(new EdgeDriver());
 		} else if (browserName.equals("safari")) {
-			// driver = new SafariDriver();
 			tlDriver.set(new SafariDriver());
 		} else {
 			System.out.println("Please pass the right browser name: " + browserName);
