@@ -27,5 +27,6 @@
 			<class name="com.qa.opencart.tests.AccountsPageTest" />
 		</classes>
 	</test>
+	
 
 </suite>
