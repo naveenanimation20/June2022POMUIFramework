@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="Open Cart App Regression Suite" thread-count="6"
+<suite name="Open Cart App Regression Suite" thread-count="2"
 	parallel="tests" verbose="4">
 
 
@@ -14,40 +14,17 @@
 			class-name="com.qa.opencart.listeners.AnnotationTransformer" />
 
 	</listeners>
-	
-	<test name="Login Test_chrome_edge">
-		<parameter name="browser" value="edge" />
-		<classes>
-			<class name="com.qa.opencart.tests.LoginPageTest" />
 
-		</classes>
-	</test>
-
-	<test name="Login Test_chrome">
+	<test name="Login Test">
 		<parameter name="browser" value="chrome" />
 		<classes>
 			<class name="com.qa.opencart.tests.LoginPageTest" />
 
 		</classes>
 	</test>
-	
-	<test name="Login Test_firefox">
-		<parameter name="browser" value="firefox" />
-		<classes>
-			<class name="com.qa.opencart.tests.LoginPageTest" />
 
-		</classes>
-	</test>
-
-	<test name="Accounts Page Test_chrome">
+	<test name="Accounts Page Test">
 		<parameter name="browser" value="chrome" />
-		<classes>
-			<class name="com.qa.opencart.tests.AccountsPageTest" />
-		</classes>
-	</test>
-	
-	<test name="Accounts Page Test_firefox">
-		<parameter name="browser" value="firefox" />
 		<classes>
 			<class name="com.qa.opencart.tests.AccountsPageTest" />
 		</classes>

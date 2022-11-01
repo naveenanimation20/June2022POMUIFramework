@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -14,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.qa.opencart.erros.AppError;
@@ -41,6 +44,7 @@ public class DriverFactory {
 	 */
 	public WebDriver initDriver(Properties prop) {
 		String browserName = prop.getProperty("browser").toLowerCase();
+		
 		System.out.println("browser name is : " + browserName);
 		LOG.info("browser name is : " + browserName);
 
@@ -48,20 +52,47 @@ public class DriverFactory {
 		optionsManager = new OptionsManager(prop);
 
 		if (browserName.equals("chrome")) {
-			WebDriverManager.chromedriver().setup();
-			// driver = new ChromeDriver();
-			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote run:
+				init_remoteDriver("chrome");
+			} else {
+				// local run:
+				WebDriverManager.chromedriver().setup();
+				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+			}
 		} else if (browserName.equals("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			// driver = new FirefoxDriver();
-			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
-		} else if (browserName.equals("edge")) {
-			WebDriverManager.edgedriver().setup();
-			// driver = new EdgeDriver();
-			tlDriver.set(new EdgeDriver());
-		} else if (browserName.equals("safari")) {
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote run:
+				init_remoteDriver("firefox");
+			} else {
+				// local run:
+				WebDriverManager.firefoxdriver().setup();
+				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			}
+
+		}
+
+		else if (browserName.equals("edge")) {
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote run:
+				init_remoteDriver("edge");
+			} else {
+				// local run:
+				WebDriverManager.edgedriver().setup();
+				tlDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
+			}
+
+		} 
+		
+		else if (browserName.equals("safari")) {
+			//only local execution---docker does not support safari
 			tlDriver.set(new SafariDriver());
-		} else {
+		} 
+		
+		else {
 			System.out.println("Please pass the right browser name: " + browserName);
 			LOG.error("Please pass the right browser name : " + browserName);
 			throw new FrameworkException(AppError.BROWSER_NOT_FOUND);
@@ -72,6 +103,43 @@ public class DriverFactory {
 		getDriver().get(prop.getProperty("url"));
 
 		return getDriver();
+
+	}
+
+	/*
+	 * remote execution
+	 */
+	private void init_remoteDriver(String browser) {
+		
+		System.out.println("Running test cases on remote GRID machine....with browser: " + browser);
+
+		if (browser.equals("chrome")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getChromeOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		} 
+		
+		else if (browser.equals("firefox")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getFirefoxOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		else if (browser.equals("edge")) {
+			try {
+				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getEdgeOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Please pass the right browser for remote exution...." + browser);
+		}
 
 	}
 
@@ -91,10 +159,10 @@ public class DriverFactory {
 		// mvn clean install -Denv="dev"
 		// mvn clean install
 
-		//String envName = System.getenv("env");// stage/uat/qa/dev
+		// String envName = System.getenv("env");// stage/uat/qa/dev
 		String envName = System.getProperty("env");
 		System.out.println("-----> Running test cases on environment: ----->" + envName);
-		LOG.info("-----> Running test cases on environment: ----->"+ envName) ;
+		LOG.info("-----> Running test cases on environment: ----->" + envName);
 		if (envName == null) {
 			System.out.println("No env is given..hence running it on QA env.....");
 			try {
@@ -126,7 +194,7 @@ public class DriverFactory {
 				default:
 					System.out.println("please pass the right env name...." + envName);
 					throw new FrameworkException(AppError.ENV_NOT_FOUND);
-					//break;
+				// break;
 				}
 
 			} catch (FileNotFoundException e) {
@@ -143,38 +211,25 @@ public class DriverFactory {
 
 		return prop;
 	}
-	
-	
+
 	/**
 	 * take screenshot
 	 * 
 	 */
 	public static String getScreenshot() {
-		
+
 		File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-		
-		
+
 		String path = System.getProperty("user.dir") + "/screenshot/" + System.currentTimeMillis() + ".png";
 		File destination = new File(path);
-		
+
 		try {
 			FileUtils.copyFile(srcFile, destination);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return path;
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
