@@ -99,6 +99,8 @@
 			<version>2.19.0</version>
 		</dependency>
 
+		
+
 
 	</dependencies>
 
@@ -124,9 +126,9 @@
 					<reuseForks>true</reuseForks>
 					<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
 					<suiteXmlFiles>
- 						<suiteXmlFile>src/test/resources/testrunners/testng_regression.xml</suiteXmlFile>
- 						
- 							<!-- <suiteXmlFile>${suiteXmlFile}</suiteXmlFile> -->
+						<suiteXmlFile>src/test/resources/testrunners/testng_regression.xml</suiteXmlFile>
+
+						<!-- <suiteXmlFile>${suiteXmlFile}</suiteXmlFile> -->
 					</suiteXmlFiles>
 
 					<argLine>
