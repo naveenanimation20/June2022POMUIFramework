@@ -22,7 +22,6 @@ import org.openqa.selenium.safari.SafariDriver;
 import com.qa.opencart.erros.AppError;
 import com.qa.opencart.exception.FrameworkException;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
 
@@ -58,7 +57,7 @@ public class DriverFactory {
 				init_remoteDriver("chrome");
 			} else {
 				// local run:
-				WebDriverManager.chromedriver().setup();
+				//WebDriverManager.chromedriver().setup();
 				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 			}
 		} else if (browserName.equals("firefox")) {
@@ -68,7 +67,7 @@ public class DriverFactory {
 				init_remoteDriver("firefox");
 			} else {
 				// local run:
-				WebDriverManager.firefoxdriver().setup();
+				//WebDriverManager.firefoxdriver().setup();
 				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
 			}
 
@@ -81,7 +80,7 @@ public class DriverFactory {
 				init_remoteDriver("edge");
 			} else {
 				// local run:
-				WebDriverManager.edgedriver().setup();
+				//WebDriverManager.edgedriver().setup();
 				tlDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
 			}
 
@@ -91,6 +90,11 @@ public class DriverFactory {
 			//only local execution---docker does not support safari
 			tlDriver.set(new SafariDriver());
 		} 
+		
+		else if (browserName.equals("opera")) {
+			//tlDriver.set(new OperaDriver());
+		} 
+		
 		
 		else {
 			System.out.println("Please pass the right browser name: " + browserName);

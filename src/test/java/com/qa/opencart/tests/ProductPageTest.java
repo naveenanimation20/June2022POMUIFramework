@@ -17,7 +17,7 @@ public class ProductPageTest extends BaseTest {
 		accPage = loginPage.doLogin(prop.getProperty("username"), prop.getProperty("password"));
 	}
 
-	@Test
+	@Test(enabled = false)
 	public void productHeaderTest() {
 		searchResultsPage = accPage.performSearch("Macbook");
 		productInfoPage = searchResultsPage.selectProduct("MacBook Pro");
@@ -34,7 +34,7 @@ public class ProductPageTest extends BaseTest {
 				};
 	}
 
-	@Test(dataProvider = "getProductInfoData")
+	@Test(dataProvider = "getProductInfoData", enabled = false)
 	public void productImagesCountTest(String searchKey, String mainProductName, int ImagesCount) {
 		searchResultsPage = accPage.performSearch(searchKey);
 		productInfoPage = searchResultsPage.selectProduct(mainProductName);
@@ -49,9 +49,10 @@ public class ProductPageTest extends BaseTest {
 		searchResultsPage = accPage.performSearch("Macbook");
 		productInfoPage = searchResultsPage.selectProduct("MacBook Pro");
 		Map<String, String> actMetaDataMap = productInfoPage.getProductMetaData();
-		Assert.assertEquals(actMetaDataMap.get("Brand"), "Apple");
-		Assert.assertEquals(actMetaDataMap.get("Product Code"), "Product 18");
-		Assert.assertEquals(actMetaDataMap.get("Reward Points"), "800");
-		Assert.assertEquals(actMetaDataMap.get("Availability"), "In Stock");
+		softAssert.assertEquals(actMetaDataMap.get("Brand"), "Apple11");
+		softAssert.assertEquals(actMetaDataMap.get("Product Code"), "Product 1811");
+		softAssert.assertEquals(actMetaDataMap.get("Reward Points"), "80011");
+		softAssert.assertEquals(actMetaDataMap.get("Availability"), "In Stock");
+		softAssert.assertAll();
 	}
 }

@@ -17,7 +17,7 @@
 
 
 
-	<test name="Login Test_chrome_90">
+	<!-- <test name="Login Test_chrome_90">
 		<parameter name="browser" value="chrome" />
 		<parameter name="browserversion" value="90.0" />
 		<parameter name="testname" value="LoginPageTest" />
@@ -26,15 +26,15 @@
 			<class name="com.qa.opencart.tests.LoginPageTest" />
 
 		</classes>
-	</test>
+	</test> -->
 
 	<test name="Login Test_chrome_89">
 		<parameter name="browser" value="chrome" />
 		<parameter name="browserversion" value="107.0" />
-		<parameter name="testname" value="AccountsPageTest" />
+		<parameter name="testname" value="ProductPageTest" />
 
 		<classes>
-			<class name="com.qa.opencart.tests.AccountsPageTest" />
+			<class name="com.qa.opencart.tests.ProductPageTest" />
 
 		</classes>
 	</test>
